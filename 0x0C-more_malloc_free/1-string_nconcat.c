@@ -1,32 +1,42 @@
-#include <stdlib.h>
+#include "main.h"
 #include <stdio.h>
+#include <stdlib.h>
 /**
- * string_nconcat - concatenate two strings up to n bytes.
- * @s1: source string
- * @s2: string to truncate up to n bytes
- * @n: number of bytes to truncate by
- * Return: pointer to new buffer
+ *string_nconcat - a function that concatenates two strings.
+ *@s1: destination string .
+ *@s2: string to be concatenated
+ *@n: number of bytes to copied
+ *Return: char pointer to the allocated memory
  */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	char *p;
-	unsigned int s1count, s2count, sizeBuffer, i;
-
+	char *s;
+	unsigned int i, size1 = 0, size2 = 0;
+/*checking if the 2 strings are empty */
 	if (s1 == NULL)
 		s1 = "";
 	if (s2 == NULL)
 		s2 = "";
-	for (s1count = 0; s1[s1count]; s1count++)
-		;
-	for (s2count = 0; s2[s2count]; s2count++)
-		;
-	s2count > n ? (s2count = n) : (n = s2count);
-	sizeBuffer = s1count + s2count + 1;
-	p = malloc(sizeBuffer * sizeof(char));
-	if (p == NULL)
-		return (NULL);
-	for (i = 0; i < sizeBuffer - 1; i++)
-		i < s1count ? (p[i] = s1[i]) : (p[i] = s2[i - s1count]);
-	p[sizeBuffer] = '\0';
-	return (p);
+
+/* calculating the length of both strings */
+	while (*(s1 + size1) != '\0')
+		size1++;
+	while (*(s2 + size2) != '\0')
+		size2++;
+
+	if (size2 >= n)
+		size2 = n;
+/* allocating the needed memory for the 2 strings*/
+	s = malloc(size1 + n + 1);
+	if (s == NULL)
+		return (s);
+/* copying the first string to the allacoted memory */
+	for (i = 0; i < size1; i++)
+		s[i] = s1[i];
+
+	for (i = 0; i < n; i++)
+		s[i + size1] = s2[i];
+
+	s[size1 + i] = '\0';
+	return (s);
 }
